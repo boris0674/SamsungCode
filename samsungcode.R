@@ -73,12 +73,12 @@ samlag <- Lag(samsung_yld, k=1:45)
 samlag <- data.frame(samlag)
 samlag$Lag.0 <- samsung_yld
 samlag <- samlag[complete.cases(samlag),]
-train <- samlag[1:1743,]
-test <- samlag[1744:2547, ]
-x_train2 <- subset(train, select=-c(Lag.0))
-y_train2 <- subset(yentrain, select=c(Lag.0))
-x_test2  <-  subset(test, select=-c(Lag.0))  
-y_test2 <-  subset(test, select=c(Lag.0))   
+train1 <- samlag[1:1743,]
+test1 <- samlag[1744:2547, ]
+x_train2 <- subset(train1, select=-c(Lag.0))
+y_train2 <- subset(train1, select=c(Lag.0))
+x_test2  <-  subset(test1, select=-c(Lag.0))  
+y_test2 <-  subset(test1, select=c(Lag.0))   
 x_train3 <- as.matrix(x_train2)
 x_test3 <- as.matrix(x_test2)
 y_train3 <- as.matrix(y_train2)
@@ -305,7 +305,7 @@ summary(dax_fit2)
 
 df_total <- data.frame(sam_train, msciem_train,  apple_train, sox_train, tenc_train, dax_train)
 tot_fit <- lm(sam_train~., data=df_total)
-summary(tot_fit2)
+summary(tot_fit)
 
 df_total2 <- data.frame(sam_yld, msciem_yld, dax_yld, apple_yld, sox_yld, tenc_yld)
 tot_fit2 <- lm(sam_yld~., data=df_total2) 
@@ -317,6 +317,11 @@ jpykrw <- read.csv("krwjpy.csv")
 jpykrw <- jpykrw$Price
 jpykrw_yld <- log(jpykrw[1:528]/jpykrw[2:529])
 jpykrw_yld <- rev(jpykrw_yld)
+nasdaq<- read.csv("nasdaq100.csv")
+nasdaq <- nasdaq$Close
+nasdaq <- rev(nasdaq)
+nasd_yld <- log(nasdaq[1:528]/nasdaq[2:529])
+nasd_yld <- rev(nasd_yld)
 samsungfactor <- ifelse(sam_yld < 0, 0,1)
 samfactor <- as.factor(samsungfactor)
 tencfactor <- factor(ifelse(tenc_yld < 0, 0,1))
